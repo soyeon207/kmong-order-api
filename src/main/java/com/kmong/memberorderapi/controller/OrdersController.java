@@ -2,6 +2,7 @@ package com.kmong.memberorderapi.controller;
 
 import com.kmong.memberorderapi.dto.OrderCreateRequest;
 import com.kmong.memberorderapi.service.OrdersService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,7 @@ public class OrdersController {
 
     @PostMapping
     @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "상품 주문 API")
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrderCreateRequest orderCreateRequest) {
         return ordersService.createOrder(orderCreateRequest);
     }
