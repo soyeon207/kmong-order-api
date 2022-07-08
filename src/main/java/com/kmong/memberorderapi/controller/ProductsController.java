@@ -16,13 +16,13 @@ public class ProductsController {
     private final ProductsService productsService;
 
     @GetMapping("/{productId}")
-    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getProduct(@PathVariable Long productId) {
         return productsService.getProduct(productId);
     }
 
     @GetMapping
-    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getProducts(
             @ModelAttribute ProductRequest productRequest,
             Pageable pageable) {

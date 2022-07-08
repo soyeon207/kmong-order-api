@@ -1,12 +1,18 @@
 package com.kmong.memberorderapi.entity;
 
 import com.kmong.memberorderapi.enumeration.OrderStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders extends BaseTimeEntity {
 
     @Id

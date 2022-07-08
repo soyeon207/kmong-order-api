@@ -1,6 +1,6 @@
 package com.kmong.memberorderapi.dto;
 
-import com.kmong.memberorderapi.enumeration.ProductStatus;
+import com.kmong.memberorderapi.enumeration.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductsDto {
+public class OrdersDto {
+
     protected Long id;
-    protected String name;
-    protected Integer price;
-    protected ProductStatus status;
+    protected OrderStatus status;
+
 }
