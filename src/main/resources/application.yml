@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kmong-db?serverTimezone=Asia/Seoul
+    username: soyeon
+    password: 1234
+  jpa:
+    show-sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:mysql://localhost:3306/kmong-db?serverTimezone=Asia/Seoul
+    user: soyeon
+    password: 1234

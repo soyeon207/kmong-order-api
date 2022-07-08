@@ -34,7 +34,7 @@ create table orders
     status            varchar(10) null,
     created_date_time datetime    not null,
     updated_date_time datetime    not null,
-    constraint orders_products_id_fk foreign key (product_id) references products (id)
+    constraint orders_products_id_fk foreign key (product_id) references products (id),
     constraint orders_members_id_fk foreign key (member_id) references members (id)
 );
 
