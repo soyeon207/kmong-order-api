@@ -5,8 +5,10 @@ import com.kmong.memberorderapi.dto.MemberLoginRequest;
 import com.kmong.memberorderapi.service.MembersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -26,5 +28,17 @@ public class MembersController {
         return membersService.login(memberLoginRequest);
     }
 
+    @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
+        return membersService.logout(httpServletRequest);
+    }
+
+    @GetMapping("/{memberId}/orders")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getOrdersByMember(@PathVariable Long memberId) {
+        return membersService.getOrdersByMember(memberId);
+    }
 
 }
+

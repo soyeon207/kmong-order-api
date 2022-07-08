@@ -28,15 +28,20 @@ create table products
 -- 주문 테이블
 create table orders
 (
-    id                bigint      null comment 'PK',
+    id                bigint auto_increment comment 'PK',
     member_id         bigint      not null,
     product_id        bigint      not null,
-    status            varchar(10) null,
+    status            varchar(20) null,
     created_date_time datetime    not null,
     updated_date_time datetime    not null,
     constraint orders_products_id_fk foreign key (product_id) references products (id),
-    constraint orders_members_id_fk foreign key (member_id) references members (id)
+    constraint orders_members_id_fk foreign key (member_id) references members (id),
+    constraint orders_pk primary key (id)
 );
+
+INSERT INTO products (name, price, status, created_date_time, updated_date_time) VALUES ('테스트상품', 1000, 'ACTIVE', NOW(), NOW());
+INSERT INTO products (name, price, status, created_date_time, updated_date_time) VALUES ('테스트상품2', 2000, 'ACTIVE', NOW(), NOW());
+
 
 
 

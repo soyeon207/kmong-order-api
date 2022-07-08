@@ -1,21 +1,23 @@
 package com.kmong.memberorderapi.service.impl;
 
 import com.kmong.memberorderapi.config.JwtConfig;
-import com.kmong.memberorderapi.dto.JwtTokenInfo;
-import com.kmong.memberorderapi.dto.MemberCreateRequest;
-import com.kmong.memberorderapi.dto.MemberLoginRequest;
-import com.kmong.memberorderapi.dto.ResponseDto;
+import com.kmong.memberorderapi.dto.*;
 import com.kmong.memberorderapi.entity.Members;
 import com.kmong.memberorderapi.mapper.MemberMapper;
+import com.kmong.memberorderapi.mapper.OrderMapper;
 import com.kmong.memberorderapi.repository.MembersRepository;
 import com.kmong.memberorderapi.service.MembersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -25,9 +27,12 @@ import java.util.Optional;
 public class MembersServiceImpl implements MembersService {
 
     private final JwtConfig jwtConfig;
-    private final MemberMapper memberMapper;
     private final MembersRepository membersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MemberMapper memberMapper;
+    private final OrderMapper orderMapper;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Override
     public ResponseEntity<?> createMember(MemberCreateRequest memberCreateRequest) {
@@ -55,6 +60,20 @@ public class MembersServiceImpl implements MembersService {
 
         JwtTokenInfo jwtTokenInfo = jwtConfig.createToken(members.getEmail(), Collections.singletonList(members.getUserRole().toString()));
         return ResponseDto.success(jwtTokenInfo, "로그인 성공");
+    }
+
+    @Override
+    public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
+        String accessToken = jwtConfig.resolveToken(httpServletRequest);
+        ValueOperations<String, String> logoutValueOperations = stringRedisTemplate.opsForValue();
+        logoutValueOperations.set(accessToken, accessToken);
+        return ResponseDto.success("로그아웃 성공");
+    }
+
+    @Override
+    public ResponseEntity<?> getOrdersByMember(Long memberId) {
+        Members members = Optional.ofNullable(membersRepository.findByIdWithOrders(memberId)).orElseThrow(()->new IllegalArgumentException("존재하지 않는 회원입니다."));
+        return ResponseDto.success(MemberWithOrdersDto.of(members, orderMapper), "회원 주문 내역 조회 성공");
     }
 
 }

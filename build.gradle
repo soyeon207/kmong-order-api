@@ -52,9 +52,13 @@ dependencies {
 	// java.lang.NoClassDefFoundError (javax.annotation.Generated) 발생 대응
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation group: 'com.h2database', name: 'h2'
 }
 
 tasks.named('test') {

@@ -7,6 +7,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class JwtConfig {
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     private static final String ROLES_KEY = "roles";
     private static final String JWT_HEADER_KEY = "Authorization";
@@ -103,7 +107,7 @@ public class JwtConfig {
                     .setSigningKey(secretKey)
                     .parseClaimsJws(jwtToken);
 
-            return !claims.getBody().getExpiration().before(new Date());
+            return !claims.getBody().getExpiration().before(new Date()) && stringRedisTemplate.opsForValue().get(jwtToken) == null;
         } catch (Exception e) {
             return false;
         }

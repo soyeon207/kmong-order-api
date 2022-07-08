@@ -25,4 +25,11 @@ public class ResponseDto {
                                     .build());
     }
 
+    public static ResponseEntity<?> success(String msg) {
+        return ResponseEntity.ok(Body.builder()
+                .state(HttpStatus.OK.value())
+                .massage(msg)
+                .build());
+    }
+
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -37,5 +38,8 @@ public class Members extends BaseTimeEntity {
 
     @Column
     private String phone;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "members")
+    private Set<Orders> ordersSet;
 
 }

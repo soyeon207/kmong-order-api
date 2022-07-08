@@ -1,5 +1,10 @@
 version: '3'
 services:
+  redis:
+    image: redis
+    container_name: kmong-redis
+    ports:
+      - "6379:6379"
   mysql:
     platform: linux/x86_64
     image: mysql:8.0
