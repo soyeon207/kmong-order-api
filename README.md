@@ -7,7 +7,7 @@ https://cottony-orca-c64.notion.site/dfb597a762da4df9a35d12a6e99d9ace
 > 없으신 경우  [Docker Desktop](https://www.docker.com/products/docker-desktop/) 에서 다운받아주시면 됩니다.
 
 ```
-docker-compose -p kmong up -d
+docker-compose -p order up -d
 ```
 
 ### ② 환경변수 설정하기
